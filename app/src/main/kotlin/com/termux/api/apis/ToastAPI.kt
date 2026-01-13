@@ -45,7 +45,7 @@ object ToastAPI {
     }
 
     @JvmStatic
-    protected fun getColorExtra(intent: Intent, extra: String, defaultColor: Int): Int {
+    private fun getColorExtra(intent: Intent, extra: String, defaultColor: Int): Int {
         var color = defaultColor
 
         if (intent.hasExtra(extra)) {
@@ -60,7 +60,7 @@ object ToastAPI {
     }
 
     @JvmStatic
-    protected fun getGravityExtra(intent: Intent): Int {
+    private fun getGravityExtra(intent: Intent): Int {
         return when (intent.getStringExtra("gravity")) {
             "top" -> Gravity.TOP
             "middle" -> Gravity.CENTER

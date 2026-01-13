@@ -152,7 +152,7 @@ object SpeechToTextAPI {
         override fun onHandleIntent(intent: Intent?) {
             Logger.logDebug(LOG_TAG, "onHandleIntent:\n${IntentUtils.getIntentString(intent)}")
 
-            ResultReturner.returnData(this, intent, object : ResultReturner.WithInput() {
+            ResultReturner.returnData(this, intent!!, object : ResultReturner.WithInput() {
                 @Throws(Exception::class)
                 override fun writeResult(out: PrintWriter) {
                     while (true) {

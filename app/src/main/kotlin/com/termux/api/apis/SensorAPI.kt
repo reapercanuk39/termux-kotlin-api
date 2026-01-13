@@ -303,7 +303,7 @@ object SensorAPI {
                     LocalSocket().use { outputSocket ->
                         outputSocket.connect(
                             ResultReturner.getApiLocalSocketAddress(
-                                ResultReturner.context, "output", outputSocketAddress
+                                ResultReturner.context!!, "output", outputSocketAddress
                             )
                         )
 

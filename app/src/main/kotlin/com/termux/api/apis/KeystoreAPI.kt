@@ -206,7 +206,7 @@ object KeystoreAPI {
             override fun writeResult(out: java.io.PrintWriter) {
                 val alias = intent.getStringExtra("alias")
                 val algorithm = intent.getStringExtra("algorithm")
-                val input = readStream(`in`)
+                val input = readStream(`in`!!)
 
                 val key = getKeyStore().getEntry(alias, null) as KeyStore.PrivateKeyEntry
                 val signature = java.security.Signature.getInstance(algorithm)
@@ -237,7 +237,7 @@ object KeystoreAPI {
             override fun writeResult(out: java.io.PrintWriter) {
                 val alias = intent.getStringExtra("alias")
                 val algorithm = intent.getStringExtra("algorithm")
-                val input = readStream(`in`)
+                val input = readStream(`in`!!)
                 val signatureFile = File(intent.getStringExtra("signature")!!)
 
                 val signatureData = ByteArray(signatureFile.length().toInt())

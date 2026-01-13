@@ -419,7 +419,7 @@ object NotificationAPI {
             context,
             PluginUtils.getLastPendingIntentRequestCode(context),
             executeIntent,
-            PendingIntentUtils.getPendingIntentImmutableFlag()
+            PendingIntentUtils.pendingIntentImmutableFlag
         )
     }
 }

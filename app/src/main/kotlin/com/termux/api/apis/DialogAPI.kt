@@ -169,7 +169,7 @@ object DialogAPI {
         companion object {
             private const val ACTIVITY_LOG_TAG = "DialogActivity"
 
-            private fun dismissDialog(dialog: Dialog) {
+            internal fun dismissDialog(dialog: Dialog) {
                 try {
                     dialog.dismiss()
                 } catch (e: Exception) {

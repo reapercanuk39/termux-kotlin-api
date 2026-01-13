@@ -86,7 +86,7 @@ object TextToSpeechAPI {
                 }
             }, speechEngine)
 
-            ResultReturner.returnData(this, intent, object : ResultReturner.WithInput() {
+            ResultReturner.returnData(this, intent!!, object : ResultReturner.WithInput() {
                 override fun writeResult(out: PrintWriter) {
                     try {
                         if (!mTtsLatch.await(10, TimeUnit.SECONDS)) {

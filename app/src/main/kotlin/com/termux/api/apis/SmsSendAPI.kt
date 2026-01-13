@@ -54,7 +54,7 @@ object SmsSendAPI {
                 Logger.logError(LOG_TAG, "SubscriptionManager not supported")
                 return null
             }
-            for (si in sm.activeSubscriptionInfoList) {
+            for (si in sm.activeSubscriptionInfoList ?: emptyList()) {
                 if (si.simSlotIndex == slot) {
                     return SmsManager.getSmsManagerForSubscriptionId(si.subscriptionId)
                 }

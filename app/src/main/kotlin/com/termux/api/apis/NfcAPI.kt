@@ -94,7 +94,7 @@ object NfcAPI {
                 .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING)
             val pendingIntent = PendingIntent.getActivity(
                 this, 0, intentNew,
-                PendingIntentUtils.getPendingIntentMutableFlag()
+                PendingIntentUtils.pendingIntentMutableFlag
             )
             val intentFilter = arrayOf(
                 IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED),

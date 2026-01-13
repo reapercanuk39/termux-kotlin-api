@@ -327,7 +327,7 @@ object SAFAPI {
             @Throws(Exception::class)
             override fun writeResult(unused: java.io.PrintWriter) {
                 context.contentResolver.openOutputStream(f.uri, "rwt")?.use { out ->
-                    writeInputStreamToOutputStream(`in`, out)
+                    writeInputStreamToOutputStream(`in`!!, out)
                 }
             }
         })
