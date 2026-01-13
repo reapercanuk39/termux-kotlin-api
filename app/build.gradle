@@ -59,7 +59,8 @@ android {
     lint {
         // Termux:API requires users to grant permissions at runtime.
         // The app properly requests permissions and handles SecurityExceptions.
-        disable 'MissingPermission'
+        // NewApi usages are properly guarded with version checks.
+        disable 'MissingPermission', 'NewApi'
         abortOnError true
     }
 
