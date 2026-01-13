@@ -116,7 +116,7 @@ object DialogAPI {
 
             postResult(this, null)
 
-            mInputMethod?.dialog?.let { dismissDialog(it) }
+            mInputMethod?.inputMethodDialog?.let { dismissDialog(it) }
         }
 
         /**
@@ -216,8 +216,7 @@ object DialogAPI {
      * Interface for creating an input method type
      */
     interface InputMethod {
-        @get:JvmName("getInputDialog")
-        val dialog: Dialog?
+        val inputMethodDialog: Dialog?
         fun create(activity: AppCompatActivity, resultListener: InputResultListener)
     }
 
@@ -555,8 +554,7 @@ object DialogAPI {
     class BottomSheetInputMethod : BottomSheetDialogFragment(), InputMethod {
         private lateinit var resultListener: InputResultListener
 
-        @get:JvmName("getInputDialogOverride")
-        override val dialog: Dialog?
+        override val inputMethodDialog: Dialog?
             get() = getDialog()
 
         override fun create(activity: AppCompatActivity, resultListener: InputResultListener) {
@@ -806,7 +804,7 @@ object DialogAPI {
         protected lateinit var widgetView: T
 
         // dialog that holds everything
-        override var dialog: Dialog? = null
+        override var inputMethodDialog: Dialog? = null
             protected set
 
         init {
@@ -828,8 +826,8 @@ object DialogAPI {
             val clickListener = getClickListener(resultListener)
 
             // Dialog interface that will display to user
-            dialog = getDialogBuilder(activity, clickListener).create()
-            dialog?.show()
+            inputMethodDialog = getDialogBuilder(activity, clickListener).create()
+            inputMethodDialog?.show()
         }
 
         protected fun postCanceledResult() {
