@@ -26,8 +26,10 @@ object CallLogAPI {
         val offset = intent.getIntExtra("offset", 0)
         val limit = intent.getIntExtra("limit", 50)
 
-        ResultReturner.returnData(context, intent, ResultReturner.ResultJsonWriter { out ->
-            getCallLogs(context, out, offset, limit)
+        ResultReturner.returnData(context, intent, object : ResultReturner.ResultJsonWriter() {
+            override fun writeJson(out: JsonWriter) {
+                getCallLogs(context, out, offset, limit)
+            }
         })
     }
 

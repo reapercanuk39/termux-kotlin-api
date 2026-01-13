@@ -20,8 +20,10 @@ object ContactListAPI {
     fun onReceive(apiReceiver: TermuxApiReceiver, context: Context, intent: Intent) {
         Logger.logDebug(LOG_TAG, "onReceive")
 
-        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultJsonWriter { out ->
-            listContacts(context, out)
+        ResultReturner.returnData(apiReceiver, intent, object : ResultReturner.ResultJsonWriter() {
+            override fun writeJson(out: JsonWriter) {
+                listContacts(context, out)
+            }
         })
     }
 

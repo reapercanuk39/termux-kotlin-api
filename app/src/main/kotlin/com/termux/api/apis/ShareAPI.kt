@@ -68,48 +68,47 @@ object ShareAPI {
                 }
             })
         } else {
-            ResultReturner.returnData(apiReceiver, intent) { out ->
+            ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
                 val fileToShare = File(fileExtra)
                 if (!(fileToShare.isFile && fileToShare.canRead())) {
                     out.println("ERROR: Not a readable file: '${fileToShare.absolutePath}'")
-                    return@returnData
-                }
-
-                var sendIntent = Intent().apply {
-                    action = intentAction
-                }
-
-                val uriToShare = UriUtils.getContentUri(
-                    TermuxAPIConstants.TERMUX_API_FILE_SHARE_URI_AUTHORITY,
-                    fileToShare.absolutePath
-                )
-                sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-                val contentTypeToUse = if (contentTypeExtra == null) {
-                    val fileName = fileToShare.name
-                    val lastDotIndex = fileName.lastIndexOf('.')
-                    val fileExtension = fileName.substring(lastDotIndex + 1)
-                    val mimeTypes = MimeTypeMap.getSingleton()
-                    mimeTypes.getMimeTypeFromExtension(fileExtension.lowercase()) ?: "application/octet-stream"
                 } else {
-                    contentTypeExtra
-                }
+                    var sendIntent = Intent().apply {
+                        action = intentAction
+                    }
 
-                titleExtra?.let { sendIntent.putExtra(Intent.EXTRA_SUBJECT, it) }
+                    val uriToShare = UriUtils.getContentUri(
+                        TermuxAPIConstants.TERMUX_API_FILE_SHARE_URI_AUTHORITY,
+                        fileToShare.absolutePath
+                    )
+                    sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-                if (Intent.ACTION_SEND == intentAction) {
-                    sendIntent.putExtra(Intent.EXTRA_STREAM, uriToShare)
-                    sendIntent.type = contentTypeToUse
-                } else {
-                    sendIntent.setDataAndType(uriToShare, contentTypeToUse)
-                }
+                    val contentTypeToUse = if (contentTypeExtra == null) {
+                        val fileName = fileToShare.name
+                        val lastDotIndex = fileName.lastIndexOf('.')
+                        val fileExtension = fileName.substring(lastDotIndex + 1)
+                        val mimeTypes = MimeTypeMap.getSingleton()
+                        mimeTypes.getMimeTypeFromExtension(fileExtension.lowercase()) ?: "application/octet-stream"
+                    } else {
+                        contentTypeExtra
+                    }
 
-                if (!defaultReceiverExtra) {
-                    sendIntent = Intent.createChooser(sendIntent, context.resources.getText(R.string.share_file_chooser_title))
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    titleExtra?.let { sendIntent.putExtra(Intent.EXTRA_SUBJECT, it) }
+
+                    if (Intent.ACTION_SEND == intentAction) {
+                        sendIntent.putExtra(Intent.EXTRA_STREAM, uriToShare)
+                        sendIntent.type = contentTypeToUse
+                    } else {
+                        sendIntent.setDataAndType(uriToShare, contentTypeToUse)
+                    }
+
+                    if (!defaultReceiverExtra) {
+                        sendIntent = Intent.createChooser(sendIntent, context.resources.getText(R.string.share_file_chooser_title))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(sendIntent)
                 }
-                context.startActivity(sendIntent)
-            }
+            })
         }
     }
 

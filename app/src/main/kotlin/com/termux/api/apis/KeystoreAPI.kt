@@ -129,12 +129,12 @@ object KeystoreAPI {
      * - alias: key alias
      */
     private fun deleteKey(apiReceiver: TermuxApiReceiver, intent: Intent) {
-        ResultReturner.returnData(apiReceiver, intent) { _ ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { _ ->
             val alias = intent.getStringExtra("alias")
             // unfortunately this statement does not return anything
             // nor does it throw an exception if the alias does not exist
             getKeyStore().deleteEntry(alias)
-        }
+        })
     }
 
     /**
@@ -157,7 +157,7 @@ object KeystoreAPI {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("WrongConstant")
     private fun generateKey(apiReceiver: TermuxApiReceiver, intent: Intent) {
-        ResultReturner.returnData(apiReceiver, intent) { _ ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { _ ->
             val alias = intent.getStringExtra("alias")!!
             val algorithm = intent.getStringExtra("algorithm")!!
             val purposes = intent.getIntExtra("purposes", 0)
@@ -188,7 +188,7 @@ object KeystoreAPI {
             val generator = KeyPairGenerator.getInstance(algorithm, PROVIDER)
             generator.initialize(builder.build())
             generator.generateKeyPair()
-        }
+        })
     }
 
     /**
@@ -283,8 +283,8 @@ object KeystoreAPI {
 
     @Suppress("unused")
     private fun printErrorMessage(apiReceiver: TermuxApiReceiver, intent: Intent) {
-        ResultReturner.returnData(apiReceiver, intent) { out ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
             out.println("termux-keystore requires at least Android 6.0 (Marshmallow).")
-        }
+        })
     }
 }

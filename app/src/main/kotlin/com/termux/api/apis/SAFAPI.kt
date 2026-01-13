@@ -41,7 +41,7 @@ object SAFAPI {
             super.onDestroy()
             finishAndRemoveTask()
             if (!resultReturned) {
-                ResultReturner.returnData(this, intent) { out -> out.write("") }
+                ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out -> out.write("") })
                 resultReturned = true
             }
         }
@@ -61,9 +61,9 @@ object SAFAPI {
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     resultReturned = true
-                    ResultReturner.returnData(this, intent) { out ->
+                    ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out ->
                         out.println(data.dataString)
-                    }
+                    })
                 }
             }
             finish()
@@ -151,7 +151,7 @@ object SAFAPI {
         }
 
         val finalId = id
-        ResultReturner.returnData(apiReceiver, intent) { out ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
             out.println(
                 DocumentsContract.createDocument(
                     context.contentResolver,
@@ -160,7 +160,7 @@ object SAFAPI {
                     name
                 ).toString()
             )
-        }
+        })
     }
 
     private fun readDocument(apiReceiver: TermuxApiReceiver, context: Context, intent: Intent) {
@@ -229,7 +229,7 @@ object SAFAPI {
             Logger.logError(LOG_TAG, "uri extra null")
             return
         }
-        ResultReturner.returnData(apiReceiver, intent) { out ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
             try {
                 if (DocumentsContract.deleteDocument(context.contentResolver, Uri.parse(uri))) {
                     out.println(0)
@@ -242,7 +242,7 @@ object SAFAPI {
                     else -> throw e
                 }
             }
-        }
+        })
     }
 
     private fun treeUriToDocumentUri(tree: Uri): Uri {

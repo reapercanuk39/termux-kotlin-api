@@ -39,28 +39,26 @@ object CameraPhotoAPI {
         val filePath = intent.getStringExtra("file")
         val cameraId = intent.getStringExtra("camera") ?: "0"
 
-        ResultReturner.returnData(apiReceiver, intent) { stdout ->
+        ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { stdout ->
             if (filePath.isNullOrEmpty()) {
                 stdout.println("ERROR: File path not passed")
-                return@returnData
+            } else {
+                val photoFilePath = TermuxFileUtils.getCanonicalPath(filePath, null, true)
+                val photoDirPath = FileUtils.getFileDirname(photoFilePath)
+                Logger.logVerbose(LOG_TAG, "photoFilePath=\"$photoFilePath\", photoDirPath=\"$photoDirPath\"")
+
+                val error: Error? = TermuxFileUtils.validateDirectoryFileExistenceAndPermissions(
+                    "photo directory", photoDirPath,
+                    true, true, true,
+                    false, true
+                )
+                if (error != null) {
+                    stdout.println("ERROR: ${error.errorLogString}")
+                } else {
+                    takePicture(stdout, context, File(photoFilePath), cameraId)
+                }
             }
-
-            val photoFilePath = TermuxFileUtils.getCanonicalPath(filePath, null, true)
-            val photoDirPath = FileUtils.getFileDirname(photoFilePath)
-            Logger.logVerbose(LOG_TAG, "photoFilePath=\"$photoFilePath\", photoDirPath=\"$photoDirPath\"")
-
-            val error: Error? = TermuxFileUtils.validateDirectoryFileExistenceAndPermissions(
-                "photo directory", photoDirPath,
-                true, true, true,
-                false, true
-            )
-            if (error != null) {
-                stdout.println("ERROR: ${error.errorLogString}")
-                return@returnData
-            }
-
-            takePicture(stdout, context, File(photoFilePath), cameraId)
-        }
+        })
     }
 
     private fun takePicture(stdout: PrintWriter, context: Context, outputFile: File, cameraId: String) {

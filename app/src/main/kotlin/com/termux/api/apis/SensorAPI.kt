@@ -66,12 +66,12 @@ object SensorAPI {
         override fun onBind(intent: Intent): IBinder? = null
 
         private fun postSensorCommandResult(context: Context, intent: Intent, result: SensorCommandResult) {
-            ResultReturner.returnData(context, intent) { out ->
+            ResultReturner.returnData(context, intent, ResultReturner.ResultWriter { out ->
                 out.append(result.message).append("\n")
                 result.error?.let { out.append(it).append("\n") }
                 out.flush()
                 out.close()
-            }
+            })
         }
 
         companion object {

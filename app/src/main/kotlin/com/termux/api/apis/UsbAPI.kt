@@ -69,7 +69,7 @@ object UsbAPI {
             val action = intent.action
             if (action == null) {
                 Logger.logError(LOG_TAG, "No action passed")
-                ResultReturner.returnData(this, intent) { out -> out.append("Missing action\n") }
+                ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out -> out.append("Missing action\n") })
             }
 
             when (action) {
@@ -78,7 +78,7 @@ object UsbAPI {
                 "open" -> runOpenAction(intent)
                 else -> {
                     Logger.logError(LOG_TAG, "Invalid action: \"$action\"")
-                    ResultReturner.returnData(this, intent) { out -> out.append("Invalid action: \"$action\"\n") }
+                    ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out -> out.append("Invalid action: \"$action\"\n") })
                 }
             }
 
@@ -121,7 +121,7 @@ object UsbAPI {
                 val device = getDevice(intent, deviceName) ?: return@submit
 
                 val status = checkAndRequestUsbDevicePermission(intent, device)
-                ResultReturner.returnData(this, intent) { out ->
+                ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out ->
                     when (status) {
                         0 -> {
                             Logger.logVerbose(LOG_TAG, "Permission granted for device \"${device.deviceName}\"")
@@ -133,7 +133,7 @@ object UsbAPI {
                         }
                         -1 -> out.append("Permission request timeout.\n")
                     }
-                }
+                })
             }
         }
 
@@ -192,7 +192,7 @@ object UsbAPI {
             val device = deviceList[deviceName]
             if (device == null) {
                 Logger.logVerbose(LOG_TAG, "Failed to find device \"$deviceName\"")
-                ResultReturner.returnData(this, intent) { out -> out.append("No such device.\n") }
+                ResultReturner.returnData(this, intent, ResultReturner.ResultWriter { out -> out.append("No such device.\n") })
             }
 
             return device

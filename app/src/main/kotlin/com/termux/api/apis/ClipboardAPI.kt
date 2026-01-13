@@ -33,7 +33,7 @@ object ClipboardAPI {
                     }
                 })
             } else {
-                ResultReturner.returnData(apiReceiver, intent) { out ->
+                ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
                     if (clipData == null) {
                         out.print("")
                     } else {
@@ -45,7 +45,7 @@ object ClipboardAPI {
                             }
                         }
                     }
-                }
+                })
             }
         } else {
             val newClipText = intent.getStringExtra("text")
@@ -53,7 +53,7 @@ object ClipboardAPI {
                 clipboard.setPrimaryClip(ClipData.newPlainText("", newClipText))
             }
 
-            ResultReturner.returnData(apiReceiver, intent) { out ->
+            ResultReturner.returnData(apiReceiver, intent, ResultReturner.ResultWriter { out ->
                 if (newClipText == null) {
                     if (clipData == null) {
                         out.print("")
@@ -67,7 +67,7 @@ object ClipboardAPI {
                         }
                     }
                 }
-            }
+            })
         }
     }
 }

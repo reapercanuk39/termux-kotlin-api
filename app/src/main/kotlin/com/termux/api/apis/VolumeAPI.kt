@@ -51,11 +51,11 @@ object VolumeAPI {
     }
 
     private fun printError(context: Context, intent: Intent, error: String) {
-        ResultReturner.returnData(context, intent) { out ->
+        ResultReturner.returnData(context, intent, ResultReturner.ResultWriter { out ->
             out.append(error).append("\n")
             out.flush()
             out.close()
-        }
+        })
     }
 
     private fun setStreamVolume(intent: Intent, audioManager: AudioManager, stream: Int) {
