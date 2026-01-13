@@ -367,7 +367,7 @@ object DialogAPI {
                 if (values.size != RANGE_LENGTH) {
                     inputResult.error = "Invalid range! Must be 3 int values!"
                     postCanceledResult()
-                    dialog?.let { DialogActivity.dismissDialog(it) }
+                    InputDialog.dismissDialog(inputMethodDialog)
                 } else {
                     min = minOf(values[0], values[1])
                     max = maxOf(values[0], values[1])
