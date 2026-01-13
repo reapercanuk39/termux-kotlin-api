@@ -216,6 +216,7 @@ object DialogAPI {
      * Interface for creating an input method type
      */
     interface InputMethod {
+        @get:JvmName("getInputDialog")
         val dialog: Dialog?
         fun create(activity: AppCompatActivity, resultListener: InputResultListener)
     }
@@ -554,6 +555,7 @@ object DialogAPI {
     class BottomSheetInputMethod : BottomSheetDialogFragment(), InputMethod {
         private lateinit var resultListener: InputResultListener
 
+        @get:JvmName("getInputDialogOverride")
         override val dialog: Dialog?
             get() = getDialog()
 

@@ -35,8 +35,13 @@ object ResultReturner {
     private const val SOCKET_INPUT_EXTRA = "socket_input"
 
     @SuppressLint("StaticFieldLeak")
-    @JvmStatic
+    @JvmField
     var context: Context? = null
+
+    @JvmStatic
+    fun initContext(ctx: Context) {
+        context = ctx.applicationContext
+    }
 
     /** Just tell termux-api.c that we are done. */
     @JvmStatic
@@ -202,11 +207,6 @@ object ResultReturner {
         } else {
             runnable.run()
         }
-    }
-
-    @JvmStatic
-    fun setContext(context: Context) {
-        ResultReturner.context = context.applicationContext
     }
 
     fun interface ResultWriter {

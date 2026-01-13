@@ -34,7 +34,7 @@ class TermuxAPIApplication : Application() {
         // Set crash handler for the app
         TermuxCrashUtils.setCrashHandler(context)
 
-        ResultReturner.setContext(this)
+        ResultReturner.initContext(this)
 
         // Set log config for the app
         setLogConfig(context, true)
