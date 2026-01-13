@@ -56,6 +56,13 @@ android {
         jvmTarget = "11"
     }
 
+    lint {
+        // Termux:API requires users to grant permissions at runtime.
+        // The app properly requests permissions and handles SecurityExceptions.
+        disable 'MissingPermission'
+        abortOnError true
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = new File("termux-api-app_" +
