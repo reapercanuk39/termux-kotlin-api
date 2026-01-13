@@ -1,5 +1,6 @@
 package com.termux.api.apis
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -37,6 +38,7 @@ object NotificationAPI {
     private const val CHANNEL_TITLE = "Termux API notification channel"
     private const val KEY_TEXT_REPLY = "TERMUX_TEXT_REPLY"
 
+    @SuppressLint("MissingPermission")
     @JvmStatic
     fun onReceiveShowNotification(apiReceiver: TermuxApiReceiver, context: Context, intent: Intent) {
         Logger.logDebug(LOG_TAG, "onReceiveShowNotification")
@@ -361,6 +363,7 @@ object NotificationAPI {
         return "\"${input.toString().replace("\"", "\\\"")}\""
     }
 
+    @SuppressLint("MissingPermission")
     @JvmStatic
     fun onReceiveReplyToNotification(
         termuxApiReceiver: TermuxApiReceiver,
