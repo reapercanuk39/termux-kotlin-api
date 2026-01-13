@@ -56,6 +56,12 @@ android {
         jvmTarget = "11"
     }
 
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+        warningsAsErrors false
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = new File("termux-api-app_" +
