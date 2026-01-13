@@ -1,5 +1,6 @@
 package com.termux.api.apis
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -295,6 +296,7 @@ object SensorAPI {
                 this.errorListener = errorListener
             }
 
+            @SuppressLint("NewApi")
             override fun run() {
                 isRunning = true
                 counter = 0

@@ -100,6 +100,7 @@ object ResultReturner {
     }
 
     /** Run in a separate thread, unless the context is an IntentService. */
+    @SuppressLint("NewApi")
     @JvmStatic
     fun returnData(context: Any, intent: Intent, resultWriter: ResultWriter?) {
         val receiver = context as? BroadcastReceiver

@@ -1,5 +1,6 @@
 package com.termux.api
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Intent
 import android.net.LocalServerSocket
@@ -28,6 +29,7 @@ object SocketListener {
     private var listener: Thread? = null
     private const val LOG_TAG = "SocketListener"
 
+    @SuppressLint("NewApi")
     @JvmStatic
     fun createSocketListener(app: Application) {
         if (listener == null) {
